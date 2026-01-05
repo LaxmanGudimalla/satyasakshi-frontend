@@ -1,3 +1,7 @@
 export default function ClonedVehicle() {
-  return <div>Cloned vehicle Page</div>;
+  return (
+    <h1 className="text-3xl font-bold text-center mt-40">
+      Cloned Vehicle
+    </h1>
+  );
 }

@@ -11,8 +11,8 @@ export const createAdmin = (payload) =>
   });
 
 
-export const getAdmins = () =>
-  apiRequest("/admins", {
+export const getAdmins = ({ page, limit }) =>
+  apiRequest(`/admins?page=${page}&limit=${limit}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     }

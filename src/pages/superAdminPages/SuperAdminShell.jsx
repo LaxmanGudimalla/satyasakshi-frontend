@@ -1,5 +1,14 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { FiLogOut, FiBell } from "react-icons/fi";
+import {
+  FiGrid,
+  FiUsers,
+  FiUserCheck,
+  FiTruck,
+  FiFileText,
+  FiBarChart2,
+  FiSettings
+} from "react-icons/fi";
 
 export default function SuperAdminShell() {
   const navigate = useNavigate();
@@ -27,59 +36,67 @@ export default function SuperAdminShell() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* LEFT SIDEBAR */}
-      <aside className="w-64 bg-white border-r flex flex-col justify-between p-6">
+      <aside className="w-64 bg-white border-r flex flex-col justify-between p-6 h-full">
         <div>
-          <h2 className="text-xl font-bold mb-8">Vehicle Verify</h2>
+<div className="mb-6">
+  <h2 className="text-xl font-bold text-blue-600 leading-tight">
+    Vehicle Verification
+  </h2>
 
-          <nav className="space-y-4 text-gray-600">
-            <p onClick={() => navigate("/super-admin")} className="cursor-pointer hover:text-blue-600">
-              Dashboard
-            </p>
+  <p className="text-xs text-gray-400 mt-1">
+    System
+  </p>
 
-            <p
-              onClick={() => navigate("/super-admin/admin-management")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Admin Management
-            </p>
+  {/* Divider line */}
+  <div className="mt-4 border-b border-gray-200"></div>
+</div>
 
-            <p
-              onClick={() => navigate("/super-admin/user-management")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              User Management
-            </p>
+<nav className="space-y-4 text-gray-600">
+  <SidebarItem
+    icon={<FiGrid />}
+    label="Dashboard"
+    onClick={() => navigate("/super-admin")}
+  />
 
-            <p
-              onClick={() => navigate("/super-admin/vehicle-verifications")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Vehicle Verifications
-            </p>
+  <SidebarItem
+    icon={<FiUserCheck />}
+    label="Admin Management"
+    onClick={() => navigate("/super-admin/admin-management")}
+  />
 
-            <p
-              onClick={() => navigate("/super-admin/verification-logs")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Verification Logs
-            </p>
+  <SidebarItem
+    icon={<FiUsers />}
+    label="User Management"
+    onClick={() => navigate("/super-admin/user-management")}
+  />
 
-            <p
-              onClick={() => navigate("/super-admin/reports")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Reports & Analytics
-            </p>
+  <SidebarItem
+    icon={<FiTruck />}
+    label="Vehicle Verifications"
+    onClick={() => navigate("/super-admin/vehicle-verifications")}
+  />
 
-            <p
-              onClick={() => navigate("/super-admin/system-settings")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              System Settings
-            </p>
-          </nav>
+  <SidebarItem
+    icon={<FiFileText />}
+    label="Verification Logs"
+    onClick={() => navigate("/super-admin/verification-logs")}
+  />
+
+  <SidebarItem
+    icon={<FiBarChart2 />}
+    label="Reports & Analytics"
+    onClick={() => navigate("/super-admin/reports")}
+  />
+
+  <SidebarItem
+    icon={<FiSettings />}
+    label="System Settings"
+    onClick={() => navigate("/super-admin/system-settings")}
+  />
+</nav>
+
         </div>
 
         {/* BOTTOM PROFILE + LOGOUT */}
@@ -126,10 +143,24 @@ export default function SuperAdminShell() {
         </header>
 
         {/* PAGE CONTENT */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-8 overflow-y-auto">
           <Outlet />
         </main>
       </div>
+    </div>
+  );
+}
+
+
+function SidebarItem({ icon, label, onClick }) {
+  return (
+    <div
+      onClick={onClick}
+      className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer
+                 hover:bg-blue-50 hover:text-blue-600 transition"
+    >
+      <span className="text-lg">{icon}</span>
+      <span className="text-sm font-medium">{label}</span>
     </div>
   );
 }

@@ -1,5 +1,16 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { FiLogOut, FiBell } from "react-icons/fi";
+import {
+  FiGrid,
+  FiRefreshCcw,
+  FiAlertCircle,
+  FiClock,
+  FiCopy,
+  FiFileText,
+  FiRotateCcw,
+  FiCreditCard,
+  FiShield
+} from "react-icons/fi";
 
 export default function AdminShell() {
   const navigate = useNavigate();
@@ -31,78 +42,89 @@ export default function AdminShell() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* LEFT SIDEBAR */}
-      <aside className="w-64 bg-white border-r flex flex-col justify-between p-6">
+      <aside className="w-64 bg-white border-r flex flex-col justify-between p-6 h-full">
         <div>
-          <h2 className="text-xl font-bold mb-8">
-            Vehicle Verification
-          </h2>
+<div className="mb-6">
+  <h2 className="text-xl font-bold text-blue-600 leading-tight">
+    Vehicle Verification
+  </h2>
 
-          <nav className="space-y-4 text-gray-600">
-            <p
-              onClick={() => navigate("/admin")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Dashboard
-            </p>
+  <p className="text-xs text-gray-400 mt-1">
+    System
+  </p>
 
-            <p
-              onClick={() => navigate("/admin/re-registration")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Re-Registration
-            </p>
+  {/* Divider line */}
+  <div className="mt-4 border-b border-gray-200"></div>
+</div>
 
-            <p
-              onClick={() => navigate("/admin/challan-check")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Challan Check
-            </p>
 
-            <p
-              onClick={() => navigate("/admin/service-history")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Service History
-            </p>
+<nav className="space-y-4 text-gray-600">
+  <SidebarItem
+    icon={<FiGrid />}
+    label="Dashboard"
+    active={location.pathname === "/admin"}
+    onClick={() => navigate("/admin")}
+  />
 
-            <p
-              onClick={() => navigate("/admin/cloned-vehicle")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Cloned Vehicle
-            </p>
+  <SidebarItem
+    icon={<FiRefreshCcw />}
+    label="Re-Registration"
+    active={location.pathname.includes("re-registration")}
+    onClick={() => navigate("/admin/re-registration")}
+  />
 
-            <p
-              onClick={() => navigate("/admin/claim-history")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Claim History
-            </p>
+  <SidebarItem
+    icon={<FiAlertCircle />}
+    label="Challan Check"
+    active={location.pathname.includes("challan-check")}
+    onClick={() => navigate("/admin/challan-check")}
+  />
 
-            <p
-              onClick={() => navigate("/admin/recovery")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Recovery
-            </p>
+  <SidebarItem
+    icon={<FiClock />}
+    label="Service History"
+    active={location.pathname.includes("service-history")}
+    onClick={() => navigate("/admin/service-history")}
+  />
 
-            <p
-              onClick={() => navigate("/admin/fastag")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              FASTag
-            </p>
+  <SidebarItem
+    icon={<FiCopy />}
+    label="Cloned Vehicle"
+    active={location.pathname.includes("cloned-vehicle")}
+    onClick={() => navigate("/admin/cloned-vehicle")}
+  />
 
-            <p
-              onClick={() => navigate("/admin/insurance-status")}
-              className="cursor-pointer hover:text-blue-600"
-            >
-              Insurance Status
-            </p>
-          </nav>
+  <SidebarItem
+    icon={<FiFileText />}
+    label="Claim History"
+    active={location.pathname.includes("claim-history")}
+    onClick={() => navigate("/admin/claim-history")}
+  />
+
+  <SidebarItem
+    icon={<FiRotateCcw />}
+    label="Recovery"
+    active={location.pathname.includes("recovery")}
+    onClick={() => navigate("/admin/recovery")}
+  />
+
+  <SidebarItem
+    icon={<FiCreditCard />}
+    label="FASTag"
+    active={location.pathname.includes("fastag")}
+    onClick={() => navigate("/admin/fastag")}
+  />
+
+  <SidebarItem
+    icon={<FiShield />}
+    label="Insurance Status"
+    active={location.pathname.includes("insurance-status")}
+    onClick={() => navigate("/admin/insurance-status")}
+  />
+</nav>
+
         </div>
 
         {/* BOTTOM PROFILE + LOGOUT */}
@@ -149,10 +171,27 @@ export default function AdminShell() {
         </header>
 
         {/* PAGE CONTENT */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-8 overflow-y-auto">
           <Outlet />
         </main>
       </div>
+    </div>
+  );
+}
+
+function SidebarItem({ icon, label, onClick, active }) {
+  return (
+    <div
+      onClick={onClick}
+      className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition
+        ${
+          active
+            ? "bg-blue-50 text-blue-600 font-semibold"
+            : "hover:bg-gray-100 hover:text-blue-600"
+        }`}
+    >
+      <span className="text-lg">{icon}</span>
+      <span className="text-sm">{label}</span>
     </div>
   );
 }

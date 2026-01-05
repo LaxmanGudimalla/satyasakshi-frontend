@@ -1,3 +1,7 @@
 export default function ServiceHistory() {
-  return <div>service historyPage</div>;
+  return (
+    <h1 className="text-3xl font-bold text-center mt-40">
+      Service History
+    </h1>
+  );
 }

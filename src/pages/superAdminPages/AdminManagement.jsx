@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { createAdmin, getAdmins } from "../../services/admin.service";
+import { useEffect, useState, useCallback } from "react";
+import { createAdmin, getAdmins } from "../../services/superadmin.service";
+import { FiUsers, FiUserCheck, FiShield, FiClock, FiDownload,FiSearch  } from "react-icons/fi";
 
 export default function AdminManagement() {
   const [admins, setAdmins] = useState([]);
@@ -9,15 +10,22 @@ export default function AdminManagement() {
     email: "",
     password: ""
   });
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const limit = 5;
+  const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState("admins");
 
-  const loadAdmins = async () => {
-    const res = await getAdmins();
-    setAdmins(res.admins);
-  };
 
-  useEffect(() => {
-    loadAdmins();
-  }, []);
+const loadAdmins = useCallback(async () => {
+  const res = await getAdmins({ page, limit });
+  setAdmins(res.admins);
+  setTotal(res.total);
+}, [page, limit]);
+
+useEffect(() => {
+  loadAdmins();
+}, [loadAdmins]);
 
   const handleCreateAdmin = async () => {
     try {
@@ -37,6 +45,12 @@ export default function AdminManagement() {
     }
   };
 
+  const filteredAdmins = admins.filter((a) =>
+  `${a.name} ${a.email}`
+    .toLowerCase()
+    .includes(search.toLowerCase())
+);
+
   return (
     <div className="flex min-h-screen bg-gray-100">
      
@@ -44,49 +58,110 @@ export default function AdminManagement() {
       <div className="flex-1">
 
         {/* TOP CARDS */}
-        <div className="grid grid-cols-4 gap-6 mb-8">
-          <Card title="Total Users" value="1,248" />
-          <Card title="Total Admins" value={admins.length} />
-          <Card title="Active Verifications" value="186" />
-          <Card title="Pending Approvals" value="27" />
-        </div>
+<div className="grid grid-cols-4 gap-6 mb-8">
+  <Card
+    title="Total Users"
+    value="1,248"
+    icon={FiUsers}
+    iconBg="bg-blue-100"
+    iconColor="text-blue-600"
+  />
+  <Card
+    title="Total Admins"
+    value={total}
+    icon={FiShield}
+    iconBg="bg-indigo-100"
+    iconColor="text-indigo-600"
+  />
+  <Card
+    title="Active Verifications"
+    value="186"
+    icon={FiUserCheck}
+    iconBg="bg-green-100"
+    iconColor="text-green-600"
+  />
+  <Card
+    title="Pending Approvals"
+    value="27"
+    icon={FiClock}
+    iconBg="bg-yellow-100"
+    iconColor="text-yellow-600"
+  />
+</div>
 
         {/* TABLE SECTION */}
         <div className="bg-white rounded-xl shadow p-6">
           {/* Tabs + Actions */}
           <div className="flex justify-between items-center mb-4">
-            <div className="flex gap-6 border-b">
-              <button className="border-b-2 border-blue-600 pb-2 text-blue-600 font-medium">
-                Admins
-              </button>
-              <button className="pb-2 text-gray-500">Users</button>
-            </div>
+<div className="flex gap-6 border-b mb-4">
+  <button
+    onClick={() => setActiveTab("admins")}
+    className={`pb-2 font-medium ${
+      activeTab === "admins"
+        ? "border-b-2 border-blue-600 text-blue-600"
+        : "text-gray-500"
+    }`}
+  >
+    Admins
+  </button>
 
-            <button
-              onClick={() => setShowModal(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded"
-            >
-              + Add Admin
-            </button>
+  <button
+    onClick={() => setActiveTab("users")}
+    className={`pb-2 font-medium ${
+      activeTab === "users"
+        ? "border-b-2 border-blue-600 text-blue-600"
+        : "text-gray-500"
+    }`}
+  >
+    Users
+  </button>
+</div>
           </div>
 
           {/* Search & Filters */}
-          <div className="flex gap-4 mb-4">
-            <input
-              className="input w-1/3"
-              placeholder="Name / Email / Phone / ID"
-            />
-            <select className="input w-40">
-              <option>Role: All</option>
-            </select>
-            <select className="input w-40">
-              <option>Status: All</option>
-            </select>
-          </div>
+<div className="flex justify-between items-center mb-4">
+  {/* LEFT: Search */}
+<div className="relative">
+  <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+
+  <input
+    className="border rounded-xl pl-11 pr-4 py-2 text-sm w-[420px]
+               focus:ring-2 focus:ring-blue-500 outline-none"
+    placeholder="Name / Email / Phone / ID"
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+</div>
+
+
+  {/* RIGHT: Filters + Actions */}
+  <div className="flex items-center gap-3">
+    <select className="border rounded-xl px-5 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+      <option>Role: All</option>
+    </select>
+
+    <select className="border rounded-xl px-5 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+      <option>Status: All</option>
+    </select>
+
+    <button className="flex items-center gap-2 border rounded-xl px-5 py-2 text-sm  hover:bg-gray-50 focus:ring-blue-500 outline-none">
+      <FiDownload className="text-sm" />
+      Export CSV
+    </button>
+
+    <button
+      onClick={() => setShowModal(true)}
+      className="bg-blue-600 hover:bg-blue-700 text-white border rounded-xl px-5 py-2 text-sm"
+    >
+      + Add Admin
+    </button>
+  </div>
+</div>
 
           {/* TABLE */}
+          {activeTab === "admins" ? (
           <table className="w-full border">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-50 text-gray-500 text-sm">
               <tr>
                 <th className="p-2 text-left">Name</th>
                 <th className="p-2 text-left">Email</th>
@@ -96,14 +171,14 @@ export default function AdminManagement() {
               </tr>
             </thead>
             <tbody>
-              {admins.map((a) => (
+              {filteredAdmins.map((a) => (
                 <tr key={a.id} className="border-t">
-                  <td className="p-2 ">{a.name}</td>
+                  <td className="p-4 ">{a.name}</td>
                   <td>{a.email}</td>
                   <td>Admin</td>
                   <td>{new Date(a.created_at).toLocaleDateString()}</td>
                   <td>
-                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">
                       Active
                     </span>
                   </td>
@@ -111,12 +186,36 @@ export default function AdminManagement() {
               ))}
             </tbody>
           </table>
-
+) : (
+  <div className="text-center py-16 text-gray-400 text-sm">
+    No users
+  </div>
+)}
           {/* PAGINATION */}
-          <div className="flex justify-end gap-2 mt-4">
-            <button className="px-3 py-1 border rounded">Previous</button>
-            <button className="px-3 py-1 border rounded">Next</button>
-          </div>
+<div className="flex justify-end items-center gap-4 mt-4">
+{total > 0 && (
+  <span className="text-sm text-gray-500">
+    Showing {(page - 1) * limit + 1}–
+    {Math.min(page * limit, total)} of {total}
+  </span>
+)}
+  <button
+    disabled={page === 1}
+    onClick={() => setPage((p) => p - 1)}
+    className="px-3 py-1 border rounded disabled:opacity-50"
+  >
+    Previous
+  </button>
+
+  <button
+    disabled={page * limit >= total}
+    onClick={() => setPage((p) => p + 1)}
+    className="px-3 py-1 border rounded disabled:opacity-50"
+  >
+    Next
+  </button>
+</div>
+
         </div>
       </div>
 
@@ -176,11 +275,19 @@ export default function AdminManagement() {
 }
 
 /* SMALL CARD COMPONENT */
-function Card({ title, value }) {
+function Card({ title, value, icon: Icon, iconBg, iconColor }) {
   return (
-    <div className="bg-white rounded-xl shadow p-6">
-      <p className="text-gray-500 text-sm">{title}</p>
-      <h2 className="text-2xl font-bold mt-2">{value}</h2>
+    <div className="bg-white rounded-xl shadow p-6 flex justify-between items-center">
+      <div>
+        <p className="text-gray-500 text-sm font-medium uppercase">
+          {title}
+        </p>
+        <h2 className="text-3xl font-bold mt-2">{value}</h2>
+      </div>
+
+      <div className={`p-3 rounded-full ${iconBg}`}>
+        <Icon className={`text-xl ${iconColor}`} />
+      </div>
     </div>
   );
 }
