@@ -16,9 +16,22 @@ import Reports from "./pages/superAdminPages/Reports";
 import SystemSettings from "./pages/superAdminPages/SystemSettings";
 
 /* OTHER ROLES */
-import AdminDashboard from "./pages/dashboards/AdminDashboard";
+import AdminDashboard from "./pages/adminPages/AdminDashboard";
 import FieldExecutiveDashboard from "./pages/dashboards/FieldExecutiveDashboard";
 import CustomerDashboard from "./pages/dashboards/CustomerDashboard";
+
+
+import AdminShell from "./pages/adminPages/AdminShell";
+import ReRegistration from "./pages/adminPages/ReRegistration";
+import ChallanCheck from "./pages/adminPages/ChallanCheck";
+import ServiceHistory from "./pages/adminPages/ServiceHistory";
+import ClonedVehicle from "./pages/adminPages/ClonedVehicle";
+import ClaimHistory from "./pages/adminPages/ClaimHistory";
+import Recovery from "./pages/adminPages/Recovery";
+import Fastag from "./pages/adminPages/Fastag";
+import InsuranceStatus from "./pages/adminPages/InsuranceStatus";
+
+
 
 function App() {
   return (
@@ -47,6 +60,24 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/field" element={<FieldExecutiveDashboard />} />
         <Route path="/customer" element={<CustomerDashboard />} />
+
+   
+      <Route path="/admin" element={<AdminShell />}>
+  <Route index element={<AdminDashboard />} />
+   <Route path="admindashboard" element={<AdminDashboard />} /> 
+  <Route path="re-registration" element={<ReRegistration />} />
+  <Route path="challan-check" element={<ChallanCheck />} />
+  <Route path="service-history" element={<ServiceHistory />} />
+  <Route path="cloned-vehicle" element={<ClonedVehicle />} />
+  <Route path="claim-history" element={<ClaimHistory />} />
+  <Route path="recovery" element={<Recovery />} />
+  <Route path="fastag" element={<Fastag />} />
+  <Route path="insurance-status" element={<InsuranceStatus />} />
+</Route>
+
+
+
+
       </Routes>
     </BrowserRouter>
   );
