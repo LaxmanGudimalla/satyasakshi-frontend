@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createAdmin, getAdmins } from "../../services/admin.service";
+import { createAdmin, getAdmins } from "../../services/superadmin.service";
 
 export default function AdminManagement() {
   const [admins, setAdmins] = useState([]);
