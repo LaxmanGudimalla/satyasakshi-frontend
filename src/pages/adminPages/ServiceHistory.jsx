@@ -4,6 +4,7 @@ import { FiUpload } from "react-icons/fi";
 
 
 export default function ServiceHistory() {
+<<<<<<< HEAD
   const [form, setForm] = useState({
     registration_number: "",
     chassis_number: "",
@@ -175,5 +176,11 @@ export default function ServiceHistory() {
         </table>
       </div>
     </div>
+=======
+  return (
+    <h1 className="text-3xl font-bold text-center mt-40">
+      Service History
+    </h1>
+>>>>>>> 6049493a8f7fee8c2d28082ac628613289ecb271
   );
 }

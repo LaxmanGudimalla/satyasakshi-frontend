@@ -1,3 +1,7 @@
 export default function ReRegistration() {
-  return <div>Reregistration Page</div>;
+  return (
+    <h1 className="text-3xl font-bold text-center mt-40">
+      ReRegistration
+    </h1>
+  );
 }

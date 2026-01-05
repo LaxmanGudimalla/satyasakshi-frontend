@@ -1,3 +1,7 @@
 export default function ClaimHistory() {
-  return <div>Cliam history Page</div>;
+  return (
+    <h1 className="text-3xl font-bold text-center mt-40">
+      Claim History
+    </h1>
+  );
 }

@@ -1,3 +1,7 @@
 export default function Recovery() {
-  return <div>Recovery Page</div>;
+  return (
+    <h1 className="text-3xl font-bold text-center mt-40">
+      Recovery
+    </h1>
+  );
 }
