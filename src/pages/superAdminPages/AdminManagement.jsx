@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { useEffect, useState } from "react";
-import { createAdmin, getAdmins } from "../../services/superadmin.service";
-=======
 import { useEffect, useState, useCallback } from "react";
 import { createAdmin, getAdmins } from "../../services/superadmin.service";
 import { FiUsers, FiUserCheck, FiShield, FiClock, FiDownload,FiSearch  } from "react-icons/fi";
->>>>>>> 6049493a8f7fee8c2d28082ac628613289ecb271
 
 export default function AdminManagement() {
   const [admins, setAdmins] = useState([]);
