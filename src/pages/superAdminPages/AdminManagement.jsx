@@ -220,56 +220,92 @@ useEffect(() => {
       </div>
 
       {/* ADD ADMIN MODAL */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl w-96">
-            <h2 className="text-xl font-semibold mb-4">Add Admin</h2>
+{showModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative animate-fadeIn">
 
-            <input
-              className="input mb-2"
-              placeholder="Name"
-              value={form.name}
-              onChange={(e) =>
-                setForm({ ...form, name: e.target.value })
-              }
-            />
+      {/* Close Button */}
+      <button
+        onClick={() => setShowModal(false)}
+        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+      >
+        ✕
+      </button>
 
-            <input
-              className="input mb-2"
-              placeholder="Email"
-              value={form.email}
-              onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
-              }
-            />
+      {/* Title */}
+      <h2 className="text-2xl font-semibold text-gray-800 mb-1">
+        Add New Admin
+      </h2>
+      <p className="text-sm text-gray-500 mb-6">
+        Create a new admin account with login credentials
+      </p>
 
-            <input
-              className="input mb-4"
-              type="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={(e) =>
-                setForm({ ...form, password: e.target.value })
-              }
-            />
+      {/* Name */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Full Name
+        </label>
+        <input
+          type="text"
+          placeholder="Enter full name"
+          value={form.name}
+          onChange={(e) =>
+            setForm({ ...form, name: e.target.value })
+          }
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
 
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 border rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleCreateAdmin}
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-              >
-                Create
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Email */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Email Address
+        </label>
+        <input
+          type="email"
+          placeholder="admin@example.com"
+          value={form.email}
+          onChange={(e) =>
+            setForm({ ...form, email: e.target.value })
+          }
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Password */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Password
+        </label>
+        <input
+          type="password"
+          placeholder="••••••••"
+          value={form.password}
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Actions */}
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => setShowModal(false)}
+          className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleCreateAdmin}
+          className="px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700"
+        >
+          Create Admin
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

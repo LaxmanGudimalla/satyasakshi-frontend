@@ -52,7 +52,7 @@ export default function AdminDashboard() {
   {stats.map((item, i) => (
     <div
       key={i}
-      className="bg-white p-6 rounded shadow flex justify-between items-start"
+      className="bg-white p-6 rounded-lg shadow flex justify-between items-start"
     >
       {/* LEFT CONTENT */}
       <div>
@@ -75,7 +75,7 @@ export default function AdminDashboard() {
 
 
       {/* RECENT ACTIVITY */}
-      <div className="bg-white rounded shadow p-6">
+      <div className="bg-white rounded-lg shadow p-6">
         <h3 className="font-semibold mb-4">Recent Activity</h3>
 
         {[

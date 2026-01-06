@@ -60,7 +60,7 @@ export default function AdminShell() {
 </div>
 
 
-<nav className="space-y-4 text-gray-600">
+<nav className="space-y-4 text-gray-700">
   <SidebarItem
     icon={<FiGrid />}
     label="Dashboard"
