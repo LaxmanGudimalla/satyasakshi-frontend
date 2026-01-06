@@ -6,3 +6,11 @@ export const searchVehicleServiceHistory = (params) =>
       Authorization: `Bearer ${localStorage.getItem("token")}`
     }
   });
+ 
+  
+export const getRecoveredVehicle = (params) =>
+  apiRequest(`/recovered-vehicle?${params}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  });
