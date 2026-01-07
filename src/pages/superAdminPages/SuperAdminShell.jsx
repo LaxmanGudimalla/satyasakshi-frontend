@@ -1,4 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { FiLogOut, FiBell } from "react-icons/fi";
 import {
   FiGrid,
@@ -14,9 +15,20 @@ export default function SuperAdminShell() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const name = localStorage.getItem("name") || "";
-  const email = localStorage.getItem("email") || "";
+const name  = localStorage.getItem("SUPER_ADMIN_name")  || "";
+const email = localStorage.getItem("SUPER_ADMIN_email") || "";
 
+  useEffect(() => {
+
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("SUPER_ADMIN_token");
+
+  if (!token || role !== "SUPER_ADMIN") {
+    // don’t restore wrong account
+    navigate("/");
+  }
+
+}, []);
   // 🔹 Page title based on route
   const getPageTitle = () => {
     if (location.pathname.includes("admin-management"))
@@ -102,7 +114,7 @@ export default function SuperAdminShell() {
         {/* BOTTOM PROFILE + LOGOUT */}
         <div className="border-t pt-4 flex items-center justify-between">
           <div>
-            <p className="font-semibold">{name || "Super Admin"}</p>
+            <p className="font-semibold">Super Admin</p>
             <p className="text-sm text-gray-500 truncate w-40">
               {email}
             </p>

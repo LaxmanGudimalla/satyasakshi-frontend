@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from "react";
+import { getRecentActivity, formatTime, getTotalSearchCount  } from "../../helpers/recentActivity.helper";
+
 import {
   FiSearch,
   FiCheckCircle,
@@ -5,12 +8,12 @@ import {
   FiAlertTriangle
 } from "react-icons/fi";
 
-const stats = [
+const getStats = () => [
   {
     title: "Total Searches",
-    value: "1,234",
-    change: "+12% from last month",
-    changeColor: "text-green-600",
+    value: getTotalSearchCount(),     // ✅ real count
+    change: "based on activity log",
+    changeColor: "text-blue-600",
     icon: <FiSearch className="text-blue-600" />,
     iconBg: "bg-blue-100"
   },
@@ -40,7 +43,16 @@ const stats = [
   }
 ];
 
+
 export default function AdminDashboard() {
+
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    const list = getRecentActivity();
+    setActivities(list);
+  }, []);
+
   return (
     <div>
       <p className="text-gray-500 mb-6">
@@ -49,10 +61,10 @@ export default function AdminDashboard() {
 
       {/* STATS */}
 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-  {stats.map((item, i) => (
+  {getStats().map((item, i) => (
     <div
       key={i}
-      className="bg-white p-6 rounded-lg shadow flex justify-between items-start"
+      className="bg-white p-6 rounded-xl shadow flex justify-between items-start"
     >
       {/* LEFT CONTENT */}
       <div>
@@ -75,35 +87,41 @@ export default function AdminDashboard() {
 
 
       {/* RECENT ACTIVITY */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="font-semibold mb-4">Recent Activity</h3>
+{/* RECENT ACTIVITY */}
+<div className="bg-white rounded-xl shadow p-6">
 
-        {[
-          { id: "MH12AB1234", type: "Challan Check", status: "Completed", time: "2 mins ago" },
-          { id: "DL01CD5678", type: "Insurance Verification", status: "Completed", time: "15 mins ago" },
-          { id: "KA03EF9012", type: "Service History", status: "Pending", time: "1 hour ago" },
-          { id: "TN09GH3456", type: "Re-Registration", status: "Completed", time: "2 hours ago" }
-        ].map((item, i) => (
-          <div key={i} className="flex justify-between items-center border-b py-3">
-            <div>
-              <p className="font-medium">{item.id}</p>
-              <p className="text-xs text-gray-500">{item.type}</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <span
-                className={`px-3 py-1 text-xs rounded-full ${
-                  item.status === "Completed"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-yellow-100 text-yellow-700"
-                }`}
-              >
-                {item.status}
-              </span>
-              <span className="text-xs text-gray-400">{item.time}</span>
-            </div>
-          </div>
-        ))}
+  {/* FIXED – always visible */}
+  <h3 className="font-semibold mb-4 sticky top-0 bg-white z-10">
+    Recent Activity
+  </h3>
+
+  {/* ONLY ROWS WILL SCROLL */}
+  <div className="h-[350px] overflow-y-auto">
+    {activities.map((item, i) => (
+      <div
+        key={i}
+        className="flex justify-between items-center border-b py-3"
+      >
+        <div>
+          <p className="font-medium">{item.id}</p>
+          <p className="text-xs text-gray-500">{item.type}</p>
+        </div>
+
+        <span className="text-xs text-gray-400">
+          {formatTime(item.time)}
+        </span>
       </div>
+    ))}
+
+    {activities.length === 0 && (
+      <p className="text-sm text-gray-400 text-center mt-6">
+        No recent activity found
+      </p>
+    )}
+  </div>
+
+</div>
+
     </div>
   );
 }

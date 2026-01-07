@@ -1,4 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { FiLogOut, FiBell } from "react-icons/fi";
 import {
   FiGrid,
@@ -12,13 +13,25 @@ import {
   FiShield
 } from "react-icons/fi";
 
+
+
 export default function AdminShell() {
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  const name = localStorage.getItem("name") || "Admin";
-  const email = localStorage.getItem("email") || "admin@system.com";
+const name  = localStorage.getItem("ADMIN_name")  || "Admin";
+const email = localStorage.getItem("ADMIN_email") || "admin@system.com";
 
+  useEffect(() => {
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("ADMIN_token");
+
+  if (!token || role !== "ADMIN") {
+    navigate("/");
+  }
+
+}, []);
   // 🔹 Page title based on route
   const getPageTitle = () => {
     if (location.pathname.includes("re-registration"))
@@ -130,7 +143,7 @@ export default function AdminShell() {
         {/* BOTTOM PROFILE + LOGOUT */}
         <div className="border-t pt-4 flex items-center justify-between">
           <div>
-            <p className="font-semibold">{name}</p>
+            <p className="font-semibold">Admin</p>
             <p className="text-sm text-gray-500 truncate w-40">
               {email}
             </p>
@@ -138,7 +151,10 @@ export default function AdminShell() {
 
           <button
             onClick={() => {
-              localStorage.clear();
+              // localStorage.clear();
+              localStorage.removeItem("ADMIN_token");
+              localStorage.removeItem("name");
+              localStorage.removeItem("email");
               navigate("/");
             }}
             title="Logout"

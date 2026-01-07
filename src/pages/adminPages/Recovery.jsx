@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { getRecoveredVehicle } from "../../services/admin.service";
+import { addRecentActivity } from "../../helpers/recentActivity.helper";
 
 export default function Recovery() {
   const [form, setForm] = useState({
@@ -34,6 +35,17 @@ export default function Recovery() {
       if (res.success && res.data) {
         // handle object OR array response safely
         setRecoveryData(Array.isArray(res.data) ? res.data[0] : res.data);
+
+        addRecentActivity(
+    "Recovery",
+    form.registration_number ||
+    form.chassis_number ||
+    form.engine_number ||
+    form.last4_chassis ||
+    form.last4_engine ||
+    form.engine_chassis_5 ||
+    form.engine_chassis_6
+  );
       } else {
         setError("No recovery records found");
       }

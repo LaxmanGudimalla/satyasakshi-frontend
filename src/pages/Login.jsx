@@ -11,11 +11,13 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await login({ email, password });
+// 🔹 STORE – EXACT
+localStorage.setItem(`${res.role}_token`, res.token);
+localStorage.setItem(`${res.role}_name`, res.name);
+localStorage.setItem(`${res.role}_email`, res.email || email);
 
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("role", res.role);
-      localStorage.setItem("name", res.name);
-      localStorage.setItem("email", email);
+// 🔹 IMPORTANT
+localStorage.setItem("role", res.role);   // keep original
       console.log(res);
 
       if (res.role === "SUPER_ADMIN") navigate("/super-admin");

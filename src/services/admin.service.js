@@ -16,7 +16,7 @@ export const searchReRegistration = ({ registrationNumber, chassisNumber, engine
 
   return apiRequest(`/re-registration?${params.toString()}`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
+      Authorization: `Bearer ${localStorage.getItem("ADMIN_token")}`
     }
   });
 };
@@ -24,13 +24,13 @@ export const searchReRegistration = ({ registrationNumber, chassisNumber, engine
 export const getRecoveredVehicle = (params) =>
   apiRequest(`/recovered-vehicle?${params}`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
+      Authorization: `Bearer ${localStorage.getItem("ADMIN_token")}`
     }
   });
 
   export const searchChallans = (params) =>
   apiRequest(`/challans?${params}`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
+      Authorization: `Bearer ${localStorage.getItem("ADMIN_token")}`
     }
   });

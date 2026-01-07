@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { searchVehicleServiceHistory } from "../../services/admin.service";
 import { FiUpload } from "react-icons/fi";
-
+import { addRecentActivity } from "../../helpers/recentActivity.helper";
 
 export default function ServiceHistory() {
   const [form, setForm] = useState({
@@ -39,9 +39,16 @@ export default function ServiceHistory() {
 
       if (result.success) {
         setData(Array.isArray(result.data) ? result.data : [result.data]);
+
+addRecentActivity(
+  "Service History",
+  form.registration_number || form.chassis_number || form.engine_number
+);
+
       } else {
         setError(result.message || "Vehicle not found");
       }
+
     } catch (err) {
       setError(err.message || "Failed to fetch data");
     } finally {
@@ -77,7 +84,7 @@ export default function ServiceHistory() {
             type="text"
             name="registration_number"
             placeholder="Registration Number"
-            className="border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+            className="border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-black outline-none"
             onChange={handleChange}
           />
 
@@ -85,7 +92,7 @@ export default function ServiceHistory() {
             type="text"
             name="chassis_number"
             placeholder="Chassis Number"
-            className="border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+            className="border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-black outline-none"
             onChange={handleChange}
           />
 
@@ -93,7 +100,7 @@ export default function ServiceHistory() {
             type="text"
             name="engine_number"
             placeholder="Engine Number"
-            className="border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+            className="border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-black outline-none"
             onChange={handleChange}
           />
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { searchChallans } from "../../services/admin.service";
 import { FiUpload } from "react-icons/fi";
-
+import { addRecentActivity } from "../../helpers/recentActivity.helper";
 export default function ChallanCheck() {
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [rows, setRows] = useState([]);
@@ -35,6 +35,9 @@ export default function ChallanCheck() {
       } else {
         setError(res.message || "No challans found");
       }
+
+    addRecentActivity("Challan Check", registrationNumber);
+
     } catch {
       setError("Failed to fetch challan data");
     } finally {

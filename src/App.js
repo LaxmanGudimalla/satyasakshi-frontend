@@ -57,7 +57,6 @@ function App() {
         </Route>
 
         {/* OTHER DASHBOARDS */}
-        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/field" element={<FieldExecutiveDashboard />} />
         <Route path="/customer" element={<CustomerDashboard />} />
 
