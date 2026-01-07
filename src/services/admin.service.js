@@ -14,7 +14,7 @@ export const searchReRegistration = ({ registrationNumber, chassisNumber, engine
   if (chassisNumber) params.append("chassisNumber", chassisNumber);
   if (engineNumber) params.append("engineNumber", engineNumber);
 
-  return apiRequest(`/driving-licence?${params.toString()}`, {
+  return apiRequest(`/re-registration?${params.toString()}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     }
