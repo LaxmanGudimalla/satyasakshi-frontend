@@ -226,7 +226,7 @@ export default function Recovery() {
           <tbody>
             {recoveryData ? (
               <tr className="text-sm">
-                <td className="p-3">{recoveryData.case_status}</td>
+                <td className="p-3">{recoveryData.dd_no}</td>
                 <td className="p-3">{recoveryData.state}</td>
                 <td className="p-3">{recoveryData.districts}</td>
                 <td className="p-3">{recoveryData.vehicle_type}</td>

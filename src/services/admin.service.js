@@ -27,3 +27,10 @@ export const getRecoveredVehicle = (params) =>
       Authorization: `Bearer ${localStorage.getItem("token")}`
     }
   });
+
+  export const searchChallans = (params) =>
+  apiRequest(`/challans?${params}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  });
