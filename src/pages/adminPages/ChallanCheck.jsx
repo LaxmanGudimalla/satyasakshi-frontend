@@ -9,6 +9,7 @@ export default function ChallanCheck() {
   const [totalValue, setTotalValue] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [incidentFilter, setIncidentFilter] = useState("ALL");
 
   const handleSearch = async () => {
     setError("");
@@ -45,14 +46,23 @@ export default function ChallanCheck() {
     }
   };
 
+  const filteredRows =
+  incidentFilter === "ALL"
+    ? rows
+    : rows.filter(
+        r => r.incidentType?.toUpperCase() === incidentFilter
+      );
+
+
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6">
+
 
       {/* HEADER */}
       <div className="flex justify-between mb-4">
         <div>
-          <h2 className="text-xl font-semibold">Challan Check</h2>
-          <p className="text-sm text-gray-500">
+          <h1 className="text-2xl font-bold">Challan Check</h1>
+          <p className="text-sm text-gray-700">
             Search challans by registration number
           </p>
         </div>
@@ -85,16 +95,37 @@ export default function ChallanCheck() {
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {/* SUMMARY */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="bg-white p-4 rounded shadow">
-          <p>Total Challan Count</p>
-          <h2 className="text-2xl font-bold">{totalChallanCount}</h2>
-        </div>
-        <div className="bg-white p-4 rounded shadow">
-          <p>Total Challan Amount</p>
-          <h2 className="text-2xl font-bold">₹ {totalValue}</h2>
-        </div>
-      </div>
+<div className="grid grid-cols-3 gap-4 mb-6">
+  {/* Total Count */}
+  <div className="bg-white p-4 rounded shadow">
+    <p>Total Challan Count</p>
+    <h2 className="text-2xl font-bold">{totalChallanCount}</h2>
+  </div>
+
+  {/* Total Amount */}
+  <div className="bg-white p-4 rounded shadow">
+    <p>Total Challan Amount</p>
+    <h2 className="text-2xl font-bold">₹ {totalValue}</h2>
+  </div>
+
+  {/* Incident Filter */}
+  <div className="bg-white p-4 rounded shadow">
+    <p className="font-medium mb-2">Incident</p>
+    <div className="flex gap-4">
+      {["ALL", "AFTER", "BEFORE"].map(type => (
+        <label key={type} className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="incident"
+            checked={incidentFilter === type}
+            onChange={() => setIncidentFilter(type)}
+          />
+          {type}
+        </label>
+      ))}
+    </div>
+  </div>
+</div>
 
       {/* TABLE */}
       <div className="bg-white rounded shadow overflow-x-auto">
@@ -108,17 +139,20 @@ export default function ChallanCheck() {
               <th className="border">Color</th>
               <th className="border">MFG Year</th>
               <th className="border">Theft Date</th>
+              <th className="border">Challan After & Before <br/> Incident</th>
               <th className="border">Challan No</th>
               <th className="border">No. of Challans</th>
               <th className="border">Total Value</th>
+              <th className="border">ID Submitted</th>
+<th className="border">View ID</th>
             </tr>
           </thead>
 
           <tbody>
             {loading ? (
-              <tr><td colSpan="10" className="p-6 text-center">Loading…</td></tr>
+              <tr><td colSpan="13" className="p-6 text-center">Loading…</td></tr>
             ) : rows.length ? (
-              rows.map(r => (
+             filteredRows.map(r => (
                 <tr key={r.srNo}>
                   <td className="border p-2">{r.srNo}</td>
                   <td className="border">{r.registrationNumber}</td>
@@ -131,9 +165,25 @@ export default function ChallanCheck() {
                       ? new Date(r.theftDate).toLocaleDateString("en-GB")
                       : "-"}
                   </td>
+                  <td className="border">{r.incidentType}</td>
                   <td className="border">{r.challanNumber}</td>
                   <td className="border">{r.noOfChallan}</td>
                   <td className="border">₹ {r.totalValue}</td>
+                  <td className="border text-center">
+  {r.idSubmitted === "Yes" ? (
+    <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">
+      Yes
+    </span>
+  ) : (
+    <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs">
+      No
+    </span>
+  )}
+</td>
+
+<td className="border text-blue-600 underline text-center cursor-pointer">
+  View
+</td>
                 </tr>
               ))
             ) : (

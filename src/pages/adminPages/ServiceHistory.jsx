@@ -57,12 +57,13 @@ addRecentActivity(
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6">
+
       {/* PAGE TITLE */}
       <div className="flex justify-between items-start mb-4">
   <div>
-    <h2 className="text-xl font-semibold">Service History</h2>
-    <p className="text-sm text-gray-500 mt-1">
+    <h2 className="text-2xl font-bold">Service History</h2>
+    <p className="text-sm text-gray-600 mt-1">
       Search for vehicle details using registration, chassis and engine number
     </p>
   </div>
@@ -75,7 +76,7 @@ addRecentActivity(
 
       {/* 🔍 SEARCH CRITERIA CARD */}
       <div className="bg-white rounded-lg shadow mb-6 p-5">
-        <p className="text-sm font-semibold text-gray-700 mb-3">
+        <p className="text-sm font-semibold text-gray-900 mb-3">
           Search Criteria
         </p>
 
@@ -118,7 +119,7 @@ addRecentActivity(
       {/* 📊 TABLE CARD */}
       <div className="bg-white rounded-lg shadow p-4 overflow-x-auto">
         <table className="w-full border-collapse">
-          <thead className="bg-gray-100 text-xs text-gray-700 uppercase">
+          <thead className="bg-gray-100 text-xs text-gray-900 uppercase">
             <tr>
               <th className="p-3 border">Sr No</th>
               <th className="p-3 border">Registration Number</th>

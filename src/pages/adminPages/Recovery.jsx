@@ -8,10 +8,13 @@ export default function Recovery() {
     registration_number: "",
     chassis_number: "",
     engine_number: "",
-    last4_chassis: "",
-    last4_engine: "",
-    engine_chassis_5: "",
-    engine_chassis_6: ""
+    
+  chassis6: "",
+  engine6: "",
+  reg_last4: "",
+
+  engine_or_chassis_last5: "",
+  engine_or_chassis_last6: ""
   });
 
   const [recoveryData, setRecoveryData] = useState(null);
@@ -29,7 +32,10 @@ export default function Recovery() {
     try {
       setLoading(true);
 
-      const params = new URLSearchParams(form).toString();
+    const params = new URLSearchParams(
+  Object.entries(form).filter(([_, v]) => v)
+).toString();
+
       const res = await getRecoveredVehicle(params);
 
       if (res.success && res.data) {
@@ -57,10 +63,11 @@ export default function Recovery() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6">
+
       {/* PAGE HEADER */}
       <div className="mb-4">
-        <h2 className="text-xl font-semibold">Recovery</h2>
+        <h2 className="text-2xl font-bold">Recovery</h2>
         <p className="text-sm text-gray-500 mt-1">
           Search for vehicle details using registration, chassis and engine number
         </p>
@@ -68,14 +75,14 @@ export default function Recovery() {
 
       {/* SEARCH CRITERIA CARD */}
       <div className="bg-white rounded-lg shadow p-5">
-        <p className="text-sm font-semibold text-gray-700 mb-4">
+        <p className="text-sm font-semibold text-gray-900 mb-4">
           Search Criteria
         </p>
 
         <div className="grid grid-cols-8 gap-4 items-end">
           {/* Registration */}
           <div>
-            <label className="text-[11px] text-gray-600 mb-1 block leading-snug">
+            <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               Registration Number
             </label>
             <input
@@ -88,7 +95,7 @@ export default function Recovery() {
 
           {/* Chassis */}
           <div>
-            <label className="text-[11px] text-gray-600 mb-1 block leading-snug">
+            <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               Chassis Number
             </label>
             <input
@@ -101,7 +108,7 @@ export default function Recovery() {
 
           {/* Engine */}
           <div>
-            <label className="text-[11px] text-gray-600 mb-1 block leading-snug">
+            <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               Engine Number
             </label>
             <input
@@ -114,12 +121,12 @@ export default function Recovery() {
 
           {/* Last 4 Chassis */}
           <div>
-            <label className="text-[11px] text-gray-600 mb-1 block leading-snug">
+            <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               6 Digit Chassis & Reg No (Last 4 digits)
             </label>
             <input
               type="text"
-              name="last4_chassis"
+              name="chassis6"
               className="border rounded-md px-3 py-2 text-sm w-full"
               onChange={handleChange}
             />
@@ -127,12 +134,12 @@ export default function Recovery() {
 
           {/* Last 4 Engine */}
           <div>
-            <label className="text-[11px] text-gray-600 mb-1 block leading-snug">
+            <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               6 Digit Engine & Reg No (Last 4 digits)
             </label>
             <input
               type="text"
-              name="last4_engine"
+              name="engine6"
               className="border rounded-md px-3 py-2 text-sm w-full"
               onChange={handleChange}
             />
@@ -140,12 +147,12 @@ export default function Recovery() {
 
           {/* Engine Chassis 5 */}
           <div>
-            <label className="text-[11px] text-gray-600 mb-1 block leading-snug">
+            <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               Engine Chassis (Last 5 digit combination)
             </label>
             <input
               type="text"
-              name="engine_chassis_5"
+              name="engine_or_chassis_last5"
               className="border rounded-md px-3 py-2 text-sm w-full"
               onChange={handleChange}
             />
@@ -153,16 +160,32 @@ export default function Recovery() {
 
           {/* Engine Chassis 6 */}
           <div>
-            <label className="text-[11px] text-gray-600 mb-1 block leading-snug">
+            <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               Engine Chassis (Last 6 digit Combination)
             </label>
             <input
               type="text"
-              name="engine_chassis_6"
+              name="engine_or_chassis_last6"
               className="border rounded-md px-3 py-2 text-sm w-full"
               onChange={handleChange}
             />
           </div>
+
+     {(form.chassis6 || form.engine6) && (
+  <div>
+    <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
+      Registration No (Last 4 digits)
+    </label>
+    <input
+      type="text"
+      name="reg_last4"
+      className="border rounded-md px-3 py-2 text-sm w-full"
+      onChange={handleChange}
+    />
+  </div>
+)}
+
+       
 
           {/* Search Button */}
           <div>
@@ -185,7 +208,7 @@ export default function Recovery() {
       {/* RECOVERY DETAILS TABLE */}
       <div className="bg-white rounded-lg shadow mt-6 p-4">
         <table className="w-full border-collapse">
-          <thead className="bg-gray-50 text-xs text-gray-600 uppercase">
+          <thead className="bg-gray-50 text-xs text-gray-900 uppercase">
             <tr>
               <th className="p-3 text-left border-b">Make</th>
               <th className="p-3 text-left border-b">Model</th>
@@ -227,7 +250,7 @@ export default function Recovery() {
       {/* ADDITIONAL VEHICLE DETAILS TABLE */}
       <div className="bg-white rounded-lg shadow mt-4 p-4">
         <table className="w-full border-collapse">
-          <thead className="bg-gray-50 text-xs text-gray-600 uppercase">
+          <thead className="bg-gray-50 text-xs text-gray-900 uppercase">
             <tr>
               <th className="p-3 text-left border-b">DD No</th>
               <th className="p-3 text-left border-b">State</th>
