@@ -10,6 +10,7 @@ export default function ChallanCheck() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [incidentFilter, setIncidentFilter] = useState("ALL");
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async () => {
     setError("");
@@ -22,6 +23,7 @@ export default function ChallanCheck() {
 
     try {
       setLoading(true);
+      setHasSearched(true);
 
       const params = new URLSearchParams({
         registrationNumber
@@ -93,7 +95,8 @@ export default function ChallanCheck() {
       </div>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
-
+{hasSearched && rows.length > 0 && (
+  <>
       {/* SUMMARY */}
 <div className="grid grid-cols-3 gap-4 mb-6">
   {/* Total Count */}
@@ -196,6 +199,8 @@ export default function ChallanCheck() {
           </tbody>
         </table>
       </div>
+       </>
+)}
     </div>
   );
 }

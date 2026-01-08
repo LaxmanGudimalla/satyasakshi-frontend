@@ -13,6 +13,8 @@ export default function ServiceHistory() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,6 +35,7 @@ export default function ServiceHistory() {
 
     try {
       setLoading(true);
+      setHasSearched(true);
 
       const params = new URLSearchParams(form).toString();
       const result = await searchVehicleServiceHistory(params);
@@ -115,7 +118,8 @@ addRecentActivity(
       </div>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
-
+{hasSearched && data.length > 0 && (
+  <>
       {/* 📊 TABLE CARD */}
       <div className="bg-white rounded-lg shadow p-4 overflow-x-auto">
         <table className="w-full border-collapse">
@@ -182,6 +186,8 @@ addRecentActivity(
           </tbody>
         </table>
       </div>
+      </>
+)}
     </div>
   );
 }

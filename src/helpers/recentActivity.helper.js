@@ -1,4 +1,4 @@
-// stores last 10 searches
+
 export const addRecentActivity = (module, searchText) => {
 
   const old = JSON.parse(localStorage.getItem("recentActivities") || "[]");

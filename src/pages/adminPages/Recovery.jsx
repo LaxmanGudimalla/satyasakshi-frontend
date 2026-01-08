@@ -10,14 +10,14 @@ export default function Recovery() {
     engine_number: "",
     chassis6_reg4: "",
     engine6_reg4: "",
-
-  engine_or_chassis_last5: "",
-  engine_or_chassis_last6: ""
+    engine_or_chassis_last5: "",
+    engine_or_chassis_last6: ""
   });
 
   const [recoveryData, setRecoveryData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,6 +29,7 @@ export default function Recovery() {
 
     try {
       setLoading(true);
+      setHasSearched(true);
 
     const params = new URLSearchParams(
   Object.entries(form).filter(([_, v]) => v)
@@ -45,10 +46,10 @@ export default function Recovery() {
     form.registration_number ||
     form.chassis_number ||
     form.engine_number ||
-     form.chassis6_reg4 ||
-  form.engine6_reg4 ||
-  form.engine_or_chassis_last5 ||
-  form.engine_or_chassis_last6
+    form.chassis6_reg4 ||
+    form.engine6_reg4 ||
+    form.engine_or_chassis_last5 ||
+    form.engine_or_chassis_last6
   );
       } else {
         setError("No recovery records found");
@@ -172,9 +173,9 @@ export default function Recovery() {
           <div>
             <button
               onClick={handleSearch}
-              className="bg-blue-600 text-white rounded-md px-8 py-2.5 text-sm flex items-center justify-center gap-3"
+              className="bg-blue-600 text-white rounded-md px-6 py-2.5 text-sm flex items-center justify-center gap-3"
             >
-              <FiSearch size={15} />
+              <FiSearch size={13} />
               Search
             </button>
           </div>
@@ -186,6 +187,8 @@ export default function Recovery() {
         <p className="text-sm text-red-500 mt-4">{error}</p>
       )}
 
+{hasSearched && recoveryData && (
+  <>
       {/* RECOVERY DETAILS TABLE */}
       <div className="bg-white rounded-lg shadow mt-6 p-4">
         <table className="w-full border-collapse">
@@ -257,6 +260,8 @@ export default function Recovery() {
           </tbody>
         </table>
       </div>
+      </>
+)}
     </div>
   );
 }
