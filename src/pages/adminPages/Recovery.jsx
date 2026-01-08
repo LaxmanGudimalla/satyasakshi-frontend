@@ -8,10 +8,8 @@ export default function Recovery() {
     registration_number: "",
     chassis_number: "",
     engine_number: "",
-    
-  chassis6: "",
-  engine6: "",
-  reg_last4: "",
+    chassis6_reg4: "",
+    engine6_reg4: "",
 
   engine_or_chassis_last5: "",
   engine_or_chassis_last6: ""
@@ -47,10 +45,10 @@ export default function Recovery() {
     form.registration_number ||
     form.chassis_number ||
     form.engine_number ||
-    form.last4_chassis ||
-    form.last4_engine ||
-    form.engine_chassis_5 ||
-    form.engine_chassis_6
+     form.chassis6_reg4 ||
+  form.engine6_reg4 ||
+  form.engine_or_chassis_last5 ||
+  form.engine_or_chassis_last6
   );
       } else {
         setError("No recovery records found");
@@ -119,27 +117,27 @@ export default function Recovery() {
             />
           </div>
 
-          {/* Last 4 Chassis */}
+        
           <div>
             <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               6 Digit Chassis & Reg No (Last 4 digits)
             </label>
             <input
               type="text"
-              name="chassis6"
+              name="chassis6_reg4"
               className="border rounded-md px-3 py-2 text-sm w-full"
               onChange={handleChange}
             />
           </div>
 
-          {/* Last 4 Engine */}
+         
           <div>
             <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
               6 Digit Engine & Reg No (Last 4 digits)
             </label>
             <input
               type="text"
-              name="engine6"
+              name="engine6_reg4"
               className="border rounded-md px-3 py-2 text-sm w-full"
               onChange={handleChange}
             />
@@ -170,23 +168,6 @@ export default function Recovery() {
               onChange={handleChange}
             />
           </div>
-
-     {(form.chassis6 || form.engine6) && (
-  <div>
-    <label className="text-[11px] text-gray-700 mb-1 block leading-snug">
-      Registration No (Last 4 digits)
-    </label>
-    <input
-      type="text"
-      name="reg_last4"
-      className="border rounded-md px-3 py-2 text-sm w-full"
-      onChange={handleChange}
-    />
-  </div>
-)}
-
-       
-
           {/* Search Button */}
           <div>
             <button
