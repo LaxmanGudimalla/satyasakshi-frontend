@@ -30,6 +30,7 @@ import ClaimHistory from "./pages/adminPages/ClaimHistory";
 import Recovery from "./pages/adminPages/Recovery";
 import Fastag from "./pages/adminPages/Fastag";
 import InsuranceStatus from "./pages/adminPages/InsuranceStatus";
+import Stolen from "./pages/adminPages/Stolen";
 
 
 
@@ -72,6 +73,7 @@ function App() {
   <Route path="recovery" element={<Recovery />} />
   <Route path="fastag" element={<Fastag />} />
   <Route path="insurance-status" element={<InsuranceStatus />} />
+  <Route path="stolen" element={<Stolen />} />
 </Route>
 
 

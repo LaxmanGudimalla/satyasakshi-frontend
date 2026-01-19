@@ -147,7 +147,7 @@ export default function ChallanCheck() {
               <th className="border">No. of Challans</th>
               <th className="border">Total Value</th>
               <th className="border">ID Submitted</th>
-<th className="border">View ID</th>
+              <th className="border">View ID</th>
             </tr>
           </thead>
 

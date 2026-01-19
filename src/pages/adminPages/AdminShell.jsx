@@ -50,6 +50,9 @@ const email = localStorage.getItem("ADMIN_email") || "admin@system.com";
       return "FASTag";
     if (location.pathname.includes("insurance-status"))
       return "Insurance Status";
+    if (location.pathname.includes("stolen"))
+      return "Stolen";
+
 
     return "Dashboard";
   };
@@ -136,6 +139,15 @@ const email = localStorage.getItem("ADMIN_email") || "admin@system.com";
     active={location.pathname.includes("insurance-status")}
     onClick={() => navigate("/admin/insurance-status")}
   />
+
+  <SidebarItem
+  icon={<FiAlertCircle />}
+  label="Stolen"
+  active={location.pathname.includes("stolen")}
+  onClick={() => navigate("/admin/stolen")}
+/>
+
+
 </nav>
 
         </div>

@@ -34,3 +34,10 @@ export const getRecoveredVehicle = (params) =>
       Authorization: `Bearer ${localStorage.getItem("ADMIN_token")}`
     }
   });
+
+  export const getStolenVehicle = (params) =>
+  apiRequest(`/stolen-vehicles?${params}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("ADMIN_token")}`
+    }
+  });
