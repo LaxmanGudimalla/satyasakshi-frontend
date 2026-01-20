@@ -123,8 +123,16 @@ export default function Stolen() {
       )}
 
       {/* STOLEN DATA */}
-      {hasSearched && stolenData && (
-        <>
+      {hasSearched && (
+        <div className="relative mt-6 min-h-[150px]">
+
+          {loading && <SectionLoader />}
+
+          {/* Placeholder while loading */}
+          {loading && !stolenData && <ResultsPlaceholder />}
+          
+          {stolenData && (
+            <>
           {/* MAIN DETAILS */}
           <div className="bg-white rounded-lg shadow mt-6 p-4">
             <table className="w-full border-collapse">
@@ -132,29 +140,25 @@ export default function Stolen() {
                 <tr>
                   <th className="p-3 text-left border-b">Make</th>
                   <th className="p-3 text-left border-b">Model</th>
-                  <th className="p-3 text-left border-b">Year</th>
+                  <th className="p-3 text-left border-b">Color</th>
                   <th className="p-3 text-left border-b">FIR Number</th>
                   <th className="p-3 text-left border-b">Stolen Date</th>
                   <th className="p-3 text-left border-b">Police Station</th>
                 </tr>
               </thead>
               <tbody>
-                {loading ? (
-                  <tr>
-                    <td colSpan="6" className="p-4 text-center text-sm text-gray-400">
-                      Loading...
-                    </td>
-                  </tr>
-                ) : (
                   <tr className="text-sm">
-                    <td className="p-3">{stolenData.make}</td>
-                    <td className="p-3">{stolenData.model}</td>
-                    <td className="p-3">{stolenData.manufacturing_year}</td>
-                    <td className="p-3">{stolenData.fir_number}</td>
-                    <td className="p-3">{stolenData.stolen_date}</td>
-                    <td className="p-3">{stolenData.police_station}</td>
+                    <td className="p-3">{stolenData.vehicle_make || "Not Available"}</td>
+                    <td className="p-3">{stolenData.vehicle_model || "Not Available"}</td>
+                    <td className="p-3">{stolenData.vehicle_color || "Not Available"}</td>
+                    <td className="p-3">{stolenData.fir_number || "Not Available"}</td>
+                    <td className="p-3">
+                      {stolenData.stolen_date
+                        ? new Date(stolenData.stolen_date).toLocaleDateString("en-GB")
+                        : "Not Available"}
+                    </td>
+                    <td className="p-3">{stolenData.police_station || "Not Available"}</td>
                   </tr>
-                )}
               </tbody>
             </table>
           </div>
@@ -164,7 +168,7 @@ export default function Stolen() {
             <table className="w-full border-collapse">
               <thead className="bg-gray-50 text-xs uppercase">
                 <tr>
-                  <th className="p-3 text-left border-b">DD No</th>
+                  <th className="p-3 text-left border-b">Complainant</th>
                   <th className="p-3 text-left border-b">State</th>
                   <th className="p-3 text-left border-b">District</th>
                   <th className="p-3 text-left border-b">Vehicle Type</th>
@@ -172,15 +176,18 @@ export default function Stolen() {
               </thead>
               <tbody>
                 <tr className="text-sm">
-                  <td className="p-3">{stolenData.dd_no}</td>
-                  <td className="p-3">{stolenData.state}</td>
-                  <td className="p-3">{stolenData.districts}</td>
-                  <td className="p-3">{stolenData.vehicle_type}</td>
+                  <td className="p-3">{stolenData.complainant || "Not Available"}</td>
+                  <td className="p-3">{stolenData.state || "Not Available"}</td>
+                  <td className="p-3">{stolenData.district || "Not Available"}</td>
+                  <td className="p-3">{stolenData.vehicle_type || "Not Available"}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </>
+         </>
+          )}
+
+        </div>
       )}
     </div>
   );
@@ -200,5 +207,24 @@ function Input({ label, name, onChange }) {
         onChange={onChange}
       />
     </div>
+  );
+}
+
+function SectionLoader() {
+  return (
+    <div className="absolute inset-0 bg-blue-100/80 backdrop-blur-[1px] flex items-center justify-center z-20 rounded-lg">
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-10 w-10 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+        <p className="text-sm text-gray-700 font-medium">
+          Searching Stolen Vehicle Records…
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function ResultsPlaceholder() {
+  return (
+    <div className="bg-white rounded-lg shadow p-4 min-h-[260px]" />
   );
 }

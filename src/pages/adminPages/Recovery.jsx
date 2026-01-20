@@ -217,7 +217,12 @@ export default function Recovery() {
                 <td className="p-3">{recoveryData.manufacturing_year}</td>
                 <td className="p-3">{recoveryData.recovery_location}</td>
                 <td className="p-3">{recoveryData.fir_number}</td>
-                <td className="p-3">{recoveryData.recovery_date}</td>
+                {/* <td className="p-3">{recoveryData.recovery_date}</td> */}
+                <td className="p-3">
+                      {recoveryData.recovery_date
+                        ? new Date(recoveryData.recovery_date).toLocaleDateString("en-GB")
+                        : "Not Available"}
+                    </td>
                 <td className="p-3">{recoveryData.police_station}</td>
               </tr>
             ) : (

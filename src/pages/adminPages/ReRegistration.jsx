@@ -141,9 +141,16 @@ export default function ReRegistration() {
         </div>
       </div>
 
-      {/* ───────── VEHICLE INFORMATION ───────── */}
-      {result && Array.isArray(result.vehicleInformation) && result.vehicleInformation.length > 0 && (
-        <div className="bg-white rounded-xl shadow p-4 mt-4">
+      {/* ───────── RESULTS SECTION ───────── */}
+{(loading || result) && (
+  <div className="relative mt-4 min-h-[240px]">
+
+    {loading && <SectionLoader />}
+    {loading && !result && <ResultsPlaceholder />}
+
+    {/* ───────── VEHICLE INFORMATION ───────── */}
+    {result && Array.isArray(result.vehicleInformation) && result.vehicleInformation.length > 0 && (
+      <div className="bg-white rounded-xl shadow p-4">
           <h3 className="text-sm font-bold mb-2">Vehicle Information</h3>
 
           <div className="overflow-x-auto">
@@ -239,13 +246,29 @@ export default function ReRegistration() {
             </table>
           </div>
 
-          {loading && (
-            <p className="mt-2 text-center text-gray-500 text-sm">
-              Loading...
-            </p>
-          )}
         </div>
       )}
+      </div>
+)}
     </div>
+  );
+}
+
+function SectionLoader() {
+  return (
+    <div className="absolute inset-0 bg-blue-100/80 backdrop-blur-[1px] flex items-center justify-center z-20 rounded-xl">
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-10 w-10 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+        <p className="text-sm text-gray-700 font-medium">
+          Searching Vehicle Records…
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function ResultsPlaceholder() {
+  return (
+    <div className="bg-white rounded-xl shadow p-4 min-h-[240px]" />
   );
 }
