@@ -19,21 +19,102 @@ export default function Stolen() {
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
+  // ✅ NEW STATES
+  const [commonSearch, setCommonSearch] = useState("");
+  const [searchedFrom, setSearchedFrom] = useState("");
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+
   const handleSearch = async () => {
     setError("");
     setStolenData(null);
+    setHasSearched(true);
+
+    let searchParams = { ...form };
+    let searchLabelText = "";
+
+if (commonSearch.trim()) {
+  const v = commonSearch.trim().toUpperCase();
+  searchParams = {}; // VERY IMPORTANT
+
+  // Registration number
+  if (/^[A-Z]{2}\d{1,2}[A-Z]{1,3}\d{3,4}$/.test(v)) {
+    searchParams.registration_number = v;
+    searchLabelText = "Registration Number";
+  }
+
+  // First 6 + last 4
+  else if (/^[A-Z0-9]{6}\d{4}$/.test(v)) {
+    searchParams.engine6_reg4 = v;
+    searchParams.chassis6_reg4 = v;
+    searchLabelText = "6 Digit Engine / Chassis & Reg";
+  }
+
+  // // Full chassis
+  // else if (v.length >= 17 && v.length <= 19) {
+  //   searchParams.chassis_number = v;
+  //   searchLabelText = "Chassis Number";
+  // }
+
+  // Full engine
+  else if (/^[A-Z0-9]{9,16}$/.test(v)) {
+    searchParams.engine_number = v;
+    searchLabelText = "Engine Number";
+  }
+
+
+  // Full chassis (flexible length)
+else if (/^[A-Z0-9]{12,25}$/.test(v)) {
+  searchParams.chassis_number = v;
+  searchLabelText = "Chassis Number";
+}
+
+
+  // Last 5 digits
+  else if (/^\d{5}$/.test(v)) {
+    searchParams.engine_or_chassis_last5 = v;
+    searchLabelText = "Engine / Chassis (Last 5 digits)";
+  }
+
+  // Last 6 digits
+  else if (/^[A-Z0-9]{6}$/.test(v)) {
+    searchParams.engine_or_chassis_last6 = v;
+    searchLabelText = "Engine / Chassis (Last 6 digits)";
+  }
+
+  else {
+    setError("Invalid search value");
+    return;
+  }
+}
+  
+
+   // ✅ FIELD SEARCH FALLBACK (IMPORTANT)
+if (!commonSearch.trim()) {
+  if (form.registration_number) searchLabelText = "Registration Number";
+  else if (form.chassis_number) searchLabelText = "Chassis Number";
+  else if (form.engine_number) searchLabelText = "Engine Number";
+  else if (form.chassis6_reg4) searchLabelText = "6 Digit Chassis & Reg";
+  else if (form.engine6_reg4) searchLabelText = "6 Digit Engine & Reg";
+  else if (form.engine_or_chassis_last5)
+    searchLabelText = "Engine / Chassis (Last 5 digits)";
+  else if (form.engine_or_chassis_last6)
+    searchLabelText = "Engine / Chassis (Last 6 digits)";
+}
+
+  
 
     try {
       setLoading(true);
-      setHasSearched(true);
 
       const params = new URLSearchParams(
-        Object.entries(form).filter(([_, v]) => v)
+        Object.entries(searchParams).filter(([_, v]) => v)
       ).toString();
+
+      setSearchedFrom(searchLabelText);
 
       const res = await getStolenVehicle(params);
 
@@ -42,13 +123,14 @@ export default function Stolen() {
 
         addRecentActivity(
           "Stolen",
-          form.registration_number ||
-          form.chassis_number ||
-          form.engine_number ||
-          form.chassis6_reg4 ||
-          form.engine6_reg4 ||
-          form.engine_or_chassis_last5 ||
-          form.engine_or_chassis_last6
+          commonSearch ||
+            form.registration_number ||
+            form.chassis_number ||
+            form.engine_number ||
+            form.chassis6_reg4 ||
+            form.engine6_reg4 ||
+            form.engine_or_chassis_last5 ||
+            form.engine_or_chassis_last6
         );
       } else {
         setError("No stolen vehicle records found");
@@ -62,7 +144,6 @@ export default function Stolen() {
 
   return (
     <div className="p-6">
-
       {/* PAGE HEADER */}
       <div className="mb-4">
         <h2 className="text-2xl font-bold">Stolen</h2>
@@ -77,8 +158,37 @@ export default function Stolen() {
           Search Criteria
         </p>
 
-        <div className="grid grid-cols-8 gap-4 items-end">
+         {/* COMMON SEARCH BAR */}
+      <div className="mt-4 flex gap-3">
+        <input
+          type="text"
+          placeholder="Search using Registration / Chassis / Engine"
+          className="border rounded-md px-4 py-2.5 text-sm w-full"
+          value={commonSearch}
+          onChange={(e) => setCommonSearch(e.target.value)}
+        />
 
+        <button
+          onClick={handleSearch}
+          className="bg-blue-600 text-white rounded-md px-6 py-2.5 text-sm flex items-center gap-2"
+        >
+          <FiSearch size={13} />
+          Search
+        </button>
+      </div>
+
+      {/* ERROR */}
+      {error && <p className="text-sm text-red-500 mt-4">{error}</p>}
+
+      {/* DYNAMIC MESSAGE */}
+     {hasSearched && stolenData && commonSearch.trim() && searchedFrom && (
+  <p className="text-sm text-green-700 mt-4 font-medium">
+    Below is the vehicle found from the <b>{searchedFrom}</b>
+  </p>
+)}
+<br/>
+
+        <div className="grid grid-cols-7 gap-4 items-end">
           <Input label="Registration Number" name="registration_number" onChange={handleChange} />
           <Input label="Chassis Number" name="chassis_number" onChange={handleChange} />
           <Input label="Engine Number" name="engine_number" onChange={handleChange} />
@@ -107,20 +217,17 @@ export default function Stolen() {
             onChange={handleChange}
           />
 
-          <button
+          {/* <button
             onClick={handleSearch}
             className="bg-blue-600 text-white rounded-md px-6 py-2.5 text-sm flex items-center justify-center gap-3"
           >
             <FiSearch size={13} />
             Search
-          </button>
+          </button> */}
         </div>
       </div>
 
-      {/* ERROR */}
-      {error && (
-        <p className="text-sm text-red-500 mt-4">{error}</p>
-      )}
+     
 
       {/* STOLEN DATA */}
       {hasSearched && (
