@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { getRecentActivity, formatTime, getTotalSearchCount  } from "../../helpers/recentActivity.helper";
+import { getRecoveredVehiclesCount } from "../../services/admin.service";
 
 import {
   FiSearch,
   FiCheckCircle,
   FiClock,
-  FiAlertTriangle
+  FiTruck 
 } from "react-icons/fi";
 
-const getStats = () => [
+const getStats = (recoveredCount) => [
   {
     title: "Total Searches",
-    value: getTotalSearchCount(),     // ✅ real count
+    value: getTotalSearchCount(),
     change: "based on activity log",
     changeColor: "text-blue-600",
     icon: <FiSearch className="text-blue-600" />,
@@ -34,24 +35,41 @@ const getStats = () => [
     iconBg: "bg-yellow-100"
   },
   {
-    title: "Flagged Issues",
-    value: "23",
-    change: "+3% from last month",
+    title: "Recovered Vehicles",
+    value: recoveredCount,   // Get Actual Count from DB
+    change: "Until today",
     changeColor: "text-green-600",
-    icon: <FiAlertTriangle className="text-red-600" />,
+    icon: <FiTruck className="text-red-600" />,
     iconBg: "bg-red-100"
   }
 ];
 
 
+
 export default function AdminDashboard() {
 
   const [activities, setActivities] = useState([]);
+  const [recoveredCount, setRecoveredCount] = useState(0);
 
   useEffect(() => {
     const list = getRecentActivity();
     setActivities(list);
   }, []);
+
+  useEffect(() => {
+  const fetchRecoveredCount = async () => {
+    try {
+      const res = await getRecoveredVehiclesCount();
+      if (res.success) {
+        setRecoveredCount(res.total);
+      }
+    } catch (err) {
+      console.error("Recovered count error", err);
+    }
+  };
+
+  fetchRecoveredCount();
+}, []);
 
   return (
     <div>
@@ -61,7 +79,7 @@ export default function AdminDashboard() {
 
       {/* STATS */}
 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-  {getStats().map((item, i) => (
+  {getStats(recoveredCount).map((item, i) => (
     <div
       key={i}
       className="bg-white p-6 rounded-xl shadow flex justify-between items-start"

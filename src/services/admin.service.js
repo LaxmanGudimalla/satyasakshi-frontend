@@ -41,3 +41,10 @@ export const getRecoveredVehicle = (params) =>
       Authorization: `Bearer ${localStorage.getItem("ADMIN_token")}`
     }
   });
+
+export const getRecoveredVehiclesCount = () =>
+  apiRequest("/admin/recovered/count", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("ADMIN_token")}`
+    }
+  });
