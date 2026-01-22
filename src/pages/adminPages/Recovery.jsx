@@ -35,55 +35,37 @@ export default function Recovery() {
 
     let searchParams = { ...form };
     let searchLabelText = "";
+     
+// if (commonSearch.trim()) {
+//   searchParams = {
+//     commonSearch: commonSearch.trim().toUpperCase()
+//   };
+// } else {
+//   searchParams = { ...form }; // normal fields untouched
+// }
+if (commonSearch.trim()) {
+  const value = commonSearch.trim().toUpperCase();
+  const len = value.length;
 
-    // ✅ COMMON SEARCH
-   if (commonSearch.trim()) {
-  const v = commonSearch.trim().toUpperCase();
-  searchParams = {}; // VERY IMPORTANT
+  searchParams = { commonSearch: value };
 
-  // Registration number
-  if (/^[A-Z]{2}\d{1,2}[A-Z]{1,3}\d{3,4}$/.test(v)) {
-    searchParams.registration_number = v;
+  if (/^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/.test(value)) {
     searchLabelText = "Registration Number";
   }
-
-  // First 6 + last 4
-  else if (/^[A-Z0-9]{6}\d{4}$/.test(v)) {
-    searchParams.engine6_reg4 = v;
-    searchParams.chassis6_reg4 = v;
-    searchLabelText = "6 Digit Engine / Chassis & Reg";
+  else if (len === 5) {
+    searchLabelText = "Engine / Chassis (Last 5 digits)";
   }
-  
-   // Full chassis (flexible)
-  else if (/^[A-Z0-9]{12,25}$/.test(v)) {
-    searchParams.chassis_number = v;
-    searchLabelText = "Chassis Number";
-  }
-
-   // Full engine
-  else if (/^[A-Z0-9]{9,16}$/.test(v)) {
-    searchParams.engine_number = v;
-    searchLabelText = "Engine Number";
-  }
-
- else if (/^[A-Z0-9]{5}$/.test(v)) {
-  searchParams.engine_or_chassis_last5 = v;
-  searchLabelText = "Engine / Chassis (Last 5 digits)";
-}
-
-
-  // Last 6 digits
-  else if (/^[A-Z0-9]{6}$/.test(v)) {
-    searchParams.engine_or_chassis_last6 = v;
+  else if (len === 6) {
     searchLabelText = "Engine / Chassis (Last 6 digits)";
   }
-
+  else if (len === 10) {
+    searchLabelText = "6 Digit Engine / Chassis & Reg No (Last 4 digits)";
+  }
   else {
-    setError("Invalid search value");
-    return;
+    searchLabelText = "Engine / Chassis Number";
   }
 }
-     
+
     // ✅ FIELD SEARCH FALLBACK
     if (!commonSearch.trim()) {
       if (form.registration_number) searchLabelText = "Registration Number";
@@ -231,15 +213,19 @@ export default function Recovery() {
                   <th className="p-3 text-left border-b">Police Station</th>
                 </tr>
               </thead>
-              <tbody>
+             <tbody>
                 <tr className="text-sm">
-                  <td className="p-3">{recoveryData.make}</td>
-                  <td className="p-3">{recoveryData.model}</td>
-                  <td className="p-3">{recoveryData.manufacturing_year}</td>
-                  <td className="p-3">{recoveryData.recovery_location}</td>
-                  <td className="p-3">{recoveryData.fir_number}</td>
-                  <td className="p-3">{recoveryData.recovery_date}</td>
-                  <td className="p-3">{recoveryData.police_station}</td>
+                  <td className="p-3">{recoveryData.make || "Not Available"}</td>
+                  <td className="p-3">{recoveryData.model || "Not Available"}</td>
+                  <td className="p-3">{recoveryData.manufacturing_year || "Not Available"}</td>
+                  <td className="p-3">{recoveryData.recovery_location || "Not Available"}</td>
+                  <td className="p-3">{recoveryData.fir_number || "Not Available"}</td>
+                  <td className="p-3">
+                      {recoveryData.recovery_date
+                        ? new Date(recoveryData.recovery_date).toLocaleDateString("en-GB")
+                        : "Not Available"}
+                    </td>
+                  <td className="p-3">{recoveryData.police_station || "Not Available"}</td>
                 </tr>
               </tbody>
             </table>
@@ -257,10 +243,10 @@ export default function Recovery() {
               </thead>
               <tbody>
                 <tr className="text-sm">
-                  <td className="p-3">{recoveryData.dd_no}</td>
-                  <td className="p-3">{recoveryData.state}</td>
-                  <td className="p-3">{recoveryData.districts}</td>
-                  <td className="p-3">{recoveryData.vehicle_type}</td>
+                  <td className="p-3">{recoveryData.dd_no || "Not Available"}</td>
+                  <td className="p-3">{recoveryData.state || "Not Available"}</td>
+                  <td className="p-3">{recoveryData.districts || "Not Available"}</td>
+                  <td className="p-3">{recoveryData.vehicle_type || "Not Available"}</td>
                 </tr>
               </tbody>
             </table>

@@ -36,61 +36,40 @@ export default function Stolen() {
     let searchParams = { ...form };
     let searchLabelText = "";
 
-if (commonSearch.trim()) {
-  const v = commonSearch.trim().toUpperCase();
-  searchParams = {}; // VERY IMPORTANT
+// if (commonSearch.trim()) {
+//   searchParams = {
+//     commonSearch: commonSearch.trim().toUpperCase()
+//   };
+// } else {
+//   searchParams = { ...form }; // normal fields untouched
+// }
 
-  // Registration number
-  if (/^[A-Z]{2}\d{1,2}[A-Z]{1,3}\d{3,4}$/.test(v)) {
-    searchParams.registration_number = v;
+
+ if (commonSearch.trim()) {
+  const value = commonSearch.trim().toUpperCase();
+  const len = value.length;
+
+  searchParams = { commonSearch: value };
+
+  if (/^[A-Z]{2}\d{2}[A-Z]{2}\d{4}$/.test(value)) {
     searchLabelText = "Registration Number";
   }
-
-  // First 6 + last 4
-  else if (/^[A-Z0-9]{6}\d{4}$/.test(v)) {
-    searchParams.engine6_reg4 = v;
-    searchParams.chassis6_reg4 = v;
-    searchLabelText = "6 Digit Engine / Chassis & Reg";
-  }
-
-  // // Full chassis
-  // else if (v.length >= 17 && v.length <= 19) {
-  //   searchParams.chassis_number = v;
-  //   searchLabelText = "Chassis Number";
-  // }
-
-  // Full engine
-  else if (/^[A-Z0-9]{9,16}$/.test(v)) {
-    searchParams.engine_number = v;
-    searchLabelText = "Engine Number";
-  }
-
-
-  // Full chassis (flexible length)
-else if (/^[A-Z0-9]{12,25}$/.test(v)) {
-  searchParams.chassis_number = v;
-  searchLabelText = "Chassis Number";
-}
-
-
-  // Last 5 digits
-  else if (/^\d{5}$/.test(v)) {
-    searchParams.engine_or_chassis_last5 = v;
+  else if (len === 5) {
     searchLabelText = "Engine / Chassis (Last 5 digits)";
   }
-
-  // Last 6 digits
-  else if (/^[A-Z0-9]{6}$/.test(v)) {
-    searchParams.engine_or_chassis_last6 = v;
+  else if (len === 6) {
     searchLabelText = "Engine / Chassis (Last 6 digits)";
   }
-
+  else if (len === 10) {
+    searchLabelText = "6 Digit Engine / Chassis & Reg No (Last 4 digits)";
+  }
   else {
-    setError("Invalid search value");
-    return;
+    searchLabelText = "Engine / Chassis Number";
   }
 }
-  
+
+
+
 
    // ✅ FIELD SEARCH FALLBACK (IMPORTANT)
 if (!commonSearch.trim()) {
