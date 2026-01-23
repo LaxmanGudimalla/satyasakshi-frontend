@@ -44,29 +44,41 @@ export default function ReRegistration() {
 
   return (
     <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
-      {popup && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-          <div className="bg-white p-5 rounded-xl shadow w-[90%] md:w-96">
-            <h3 className="font-medium text-lg mb-3">RC Personal Details</h3>
+{popup && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center">
+    
+    {/* Backdrop */}
+    <div
+      className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+      onClick={() => setPopup(null)}
+    />
 
-            <div className="text-sm space-y-1">
-              <p><b>Owner Name:</b> {popup.ownerName}</p>
-              <p><b>Office Code:</b> {popup.officeCode}</p>
-              <p><b>Vehicle Class:</b> {popup.vehicleClass}</p>
-              <p><b>Color:</b> {popup.color}</p>
-              <p><b>Fitness Date:</b> {popup.fitnessDate}</p>
-              <p><b>Record Found In:</b> {popup.recordFoundIn}</p>
-            </div>
+    {/* Modal */}
+    <div className="relative bg-white p-5 rounded-xl shadow-xl w-[90%] md:w-96 z-10">
+      <h3 className="font-semibold text-lg mb-3">
+        RC Personal Details
+      </h3>
 
-            <button
-              className="mt-3 border px-3 py-1 rounded text-sm"
-              onClick={() => setPopup(null)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      <div className="text-sm space-y-1">
+        <p><b>Owner Name:</b> {popup.ownerName}</p>
+        <p><b>Office Code:</b> {popup.officeCode}</p>
+        <p><b>Vehicle Class:</b> {popup.vehicleClass}</p>
+        <p><b>Color:</b> {popup.color}</p>
+        <p><b>Fitness Date:</b> {popup.fitnessDate}</p>
+        <p><b>Record Found In:</b> {popup.recordFoundIn}</p>
+      </div>
+
+      <button
+        className="mt-4 w-full bg-blue-600 text-white py-2 rounded text-sm"
+        onClick={() => setPopup(null)}
+      >
+        Close
+      </button>
+    </div>
+
+  </div>
+)}
+
 
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-3 mb-5">
         <div>
@@ -142,6 +154,11 @@ export default function ReRegistration() {
       </div>
 
       {/* ───────── RESULTS SECTION ───────── */}
+<div
+  className={`transition-all duration-200 ${
+    popup ? "opacity-40 blur-[1px] pointer-events-none" : ""
+  }`}
+>
 {(loading || result) && (
   <div className="relative mt-4 min-h-[240px]">
 
@@ -250,6 +267,7 @@ export default function ReRegistration() {
       )}
       </div>
 )}
+</div>
     </div>
   );
 }

@@ -1,74 +1,88 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# SatyaSakshi Frontend
+A comprehensive React-based vehicle management and verification system with role-based dashboards for Super Admins, Admins, Field Executives, and Customers.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Quick Start
+### Prerequisites
 
-## Available Scripts
+- Node.js (v14 or higher)
+- npm or yarn
 
-In the project directory, you can run:
+### Installation & Running
+```bash
+# Clone the repository
+git clone <repository-url>
+cd satyasakshi-frontend
 
-### `npm start`
+# Install dependencies
+npm install
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Start development server (runs on http://localhost:3000)
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Available Scripts
 
-### `npm test`
+```bash
+# Start development server
+npm start
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Build for production
+npm run build
 
-### `npm run build`
+# Run tests
+npm test
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Overview
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+SatyaSakshi is a multi-role vehicle management platform that handles vehicle verification, recovery tracking, challan checks, insurance status, vehicle cloning detection, re-registration, and service history management.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tech Stack
 
-### `npm run eject`
+- **React 19** - UI Framework
+- **React Router 7** - Client-side routing
+- **Tailwind CSS 3** - Styling
+- **React Icons** - Icon library
+- **Node.js/npm** - Package management
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Features
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Authentication** - Secure login and signup
+- **Super Admin Dashboard** - System-wide administration and user management
+- **Admin Dashboard** - Vehicle verification and management tools
+  - Challan checks
+  - Re-registration tracking
+  - Service history
+  - Cloned vehicle detection
+  - Insurance status
+  - FASTag management
+  - Vehicle recovery management
+- **Field Executive Dashboard** - On-field operations
+- **Customer Dashboard** - Personal vehicle information access
+- **Real-time Verification** - Vehicle data validation system
+- **Reports & Logs** - Comprehensive audit trails
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+src/
+├── components/        # Reusable React components
+├── pages/             # Page components organized by role
+│   ├── adminPages/    # Admin-specific pages
+│   ├── superAdminPages/ # Super Admin pages
+│   └── dashboards/    # Role-based dashboards
+├── services/          # API integration services
+├── helpers/           # Utility functions
+├── assets/            # Images, fonts, etc.
+└── App.js             # Main routing configuration
+```
 
-## Learn More
+## Development
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The application uses React Router for navigation with role-based protected routes. All API calls are centralized in the `services/` directory for maintainability.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
+Private - SatyaSakshi
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# satyasakshi-frontend
->>>>>>> 6caa1a43539cbc0156b4f3006c70b60162759514
+**Author:** Laxman Gudimalla | **Updated:** January 2026
