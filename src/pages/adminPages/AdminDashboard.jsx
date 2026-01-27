@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getRecentActivity, formatTime, getTotalSearchCount  } from "../../helpers/recentActivity.helper";
 import { getRecoveredVehiclesCount } from "../../services/admin.service";
+import { getStolenVehiclesCount } from "../../services/admin.service";
+
 
 import {
   FiSearch,
@@ -9,7 +11,7 @@ import {
   FiTruck 
 } from "react-icons/fi";
 
-const getStats = (recoveredCount) => [
+const getStats = (recoveredCount,stolenCount) => [
   {
     title: "Total Searches",
     value: getTotalSearchCount(),
@@ -27,13 +29,14 @@ const getStats = (recoveredCount) => [
     iconBg: "bg-green-100"
   },
   {
-    title: "Pending Checks",
-    value: "45",
-    change: "-5% from last month",
-    changeColor: "text-red-600",
-    icon: <FiClock className="text-yellow-600" />,
-    iconBg: "bg-yellow-100"
-  },
+  title: "Stolen Vehicles",
+  value: stolenCount,
+  change: "Reported cases",
+  changeColor: "text-red-600",
+  icon: <FiClock className="text-red-600" />,
+  iconBg: "bg-red-100"
+},
+
   {
     title: "Recovered Vehicles",
     value: recoveredCount,   // Get Actual Count from DB
@@ -50,6 +53,8 @@ export default function AdminDashboard() {
 
   const [activities, setActivities] = useState([]);
   const [recoveredCount, setRecoveredCount] = useState(0);
+  const [stolenCount, setStolenCount] = useState(0);
+
 
   useEffect(() => {
     const list = getRecentActivity();
@@ -71,6 +76,23 @@ export default function AdminDashboard() {
   fetchRecoveredCount();
 }, []);
 
+useEffect(() => {
+  const fetchStolenCount = async () => {
+    try {
+      const res = await getStolenVehiclesCount();
+      if (res.success) {
+        setStolenCount(res.total);
+      }
+    } catch (err) {
+      console.error("Stolen count error", err);
+    }
+  };
+
+  fetchStolenCount();
+}, []);
+
+
+
   return (
     <div>
       <p className="text-gray-500 mb-6">
@@ -79,7 +101,7 @@ export default function AdminDashboard() {
 
       {/* STATS */}
 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-  {getStats(recoveredCount).map((item, i) => (
+  {getStats(recoveredCount,stolenCount).map((item, i) => (
     <div
       key={i}
       className="bg-white p-6 rounded-xl shadow flex justify-between items-start"
