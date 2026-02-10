@@ -10,7 +10,8 @@ import {
   FiFileText,
   FiRotateCcw,
   FiCreditCard,
-  FiShield
+  FiShield,
+  FiAlertTriangle
 } from "react-icons/fi";
 
 
@@ -141,7 +142,7 @@ const email = localStorage.getItem("ADMIN_email") || "admin@system.com";
   />
 
   <SidebarItem
-  icon={<FiAlertCircle />}
+  icon={<FiAlertTriangle />}
   label="Stolen"
   active={location.pathname.includes("stolen")}
   onClick={() => navigate("/admin/stolen")}

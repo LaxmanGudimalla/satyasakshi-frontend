@@ -3,12 +3,12 @@ import { getRecentActivity, formatTime, getTotalSearchCount  } from "../../helpe
 import { getRecoveredVehiclesCount } from "../../services/admin.service";
 import { getStolenVehiclesCount } from "../../services/admin.service";
 
-
 import {
   FiSearch,
   FiCheckCircle,
   FiClock,
-  FiTruck 
+  FiTruck ,
+  FiAlertTriangle
 } from "react-icons/fi";
 
 const getStats = (recoveredCount,stolenCount) => [
@@ -33,7 +33,7 @@ const getStats = (recoveredCount,stolenCount) => [
   value: stolenCount,
   change: "Reported cases",
   changeColor: "text-red-600",
-  icon: <FiClock className="text-red-600" />,
+  icon: <FiAlertTriangle className="text-red-600" />,
   iconBg: "bg-red-100"
 },
 
